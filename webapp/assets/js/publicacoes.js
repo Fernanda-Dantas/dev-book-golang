@@ -5,6 +5,7 @@ $(document).on('click', '.curtir-publicacao', curtirPublicacao);
 $(document).on('click', '.descurtir-publicacao', descurtirPublicacao);
 
 $('#atualizar-publicacao').on('click', atualizarPublicacao);
+$('.deletar-publicacao').on('click', deletarPublicacao);
 
 function criarPublicacao(event) {
   event.preventDefault();
@@ -16,9 +17,9 @@ function criarPublicacao(event) {
       titulo: $('#titulo').val(),
       conteudo: $('#conteudo').val(),
     }
-  }).done(function() {
+  }).done(function () {
     window.location = "/home";
-  }).fail(function() {
+  }).fail(function () {
     alert("Erro ao criar publicação!");
   })
 }
@@ -33,7 +34,7 @@ function curtirPublicacao(event) {
   $.ajax({
     url: `/publicacoes/${publicacaoId}/curtir`,
     method: "POST"
-  }).done(function() {
+  }).done(function () {
     const contadorDeCurtidas = click.next('span');
     const quantidadeDeCurtidas = parseInt(contadorDeCurtidas.text());
 
@@ -43,16 +44,16 @@ function curtirPublicacao(event) {
     click.addClass('text-danger');
     click.removeClass('curtir-publicacao');
 
-  }).fail(function() {
+  }).fail(function () {
     alert('Erro ao curtir publicação');
-  }).always(function() {
+  }).always(function () {
     click.prop('disabled', false);
   });
 
 }
 
 function descurtirPublicacao(event) {
-    event.preventDefault();
+  event.preventDefault();
 
   const click = $(event.target);
   const publicacaoId = click.closest('div').data('publicacao-id');
@@ -61,7 +62,7 @@ function descurtirPublicacao(event) {
   $.ajax({
     url: `/publicacoes/${publicacaoId}/descurtir`,
     method: "POST"
-  }).done(function() {
+  }).done(function () {
     const contadorDeCurtidas = click.next('span');
     const quantidadeDeCurtidas = parseInt(contadorDeCurtidas.text());
 
@@ -71,9 +72,9 @@ function descurtirPublicacao(event) {
     click.removeClass('text-danger');
     click.addClass('curtir-publicacao');
 
-  }).fail(function() {
+  }).fail(function () {
     alert('Erro ao curtir publicação');
-  }).always(function() {
+  }).always(function () {
     click.prop('disabled', false);
   });
 }
@@ -82,7 +83,7 @@ function atualizarPublicacao() {
   $(this).prop('disabled', true);
 
   const publicacaoId = $(this).data('publicacao-id');
-  
+
   $.ajax({
     url: `/publicacoes/${publicacaoId}`,
     method: "PUT",
@@ -90,11 +91,33 @@ function atualizarPublicacao() {
       titulo: $('#titulo').val(),
       conteudo: $('#conteudo').val()
     }
-  }).done(function() {
+  }).done(function () {
     alert("Publicação editada com sucesso")
-  }).fail(function() {
+  }).fail(function () {
     alert("Erro ao editar.")
-  }).always(function() {
+  }).always(function () {
     $('#atualizar-publicacao').prop('disabled', false);
   })
+}
+
+function deletarPublicacao(event) {
+  event.preventDefault();
+
+  const click = $(event.target);
+  const publicacao = click.closest('div')
+  const publicacaoId = publicacao.data('publicacao-id');
+
+  click.prop('disabled', true);
+  $.ajax({
+    url: `/publicacoes/${publicacaoId}`,
+    method: "DELETE"
+  }).done(function () {
+    publicacao.fadeOut("slow", function () {
+      $(this).remove();
+    });
+  }).fail(function () {
+    alert("Erro ao deletar a publicação.");
+  });
+
+
 }
