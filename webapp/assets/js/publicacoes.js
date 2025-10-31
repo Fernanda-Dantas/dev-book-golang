@@ -4,8 +4,10 @@ $('.curtir-publicacao').on('click', curtirPublicacao);
 $(document).on('click', '.curtir-publicacao', curtirPublicacao);
 $(document).on('click', '.descurtir-publicacao', descurtirPublicacao);
 
-function criarPublicacao(evento) {
-  evento.preventDefault();
+$('#atualizar-publicacao').on('click', atualizarPublicacao);
+
+function criarPublicacao(event) {
+  event.preventDefault();
 
   $.ajax({
     url: "/publicacoes",
@@ -74,4 +76,25 @@ function descurtirPublicacao(event) {
   }).always(function() {
     click.prop('disabled', false);
   });
+}
+
+function atualizarPublicacao() {
+  $(this).prop('disabled', true);
+
+  const publicacaoId = $(this).data('publicacao-id');
+  
+  $.ajax({
+    url: `/publicacoes/${publicacaoId}`,
+    method: "PUT",
+    data: {
+      titulo: $('#titulo').val(),
+      conteudo: $('#conteudo').val()
+    }
+  }).done(function() {
+    alert("Publicação editada com sucesso")
+  }).fail(function() {
+    alert("Erro ao editar.")
+  }).always(function() {
+    $('#atualizar-publicacao').prop('disabled', false);
+  })
 }
