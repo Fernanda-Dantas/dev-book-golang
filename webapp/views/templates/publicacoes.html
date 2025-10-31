@@ -1,10 +1,10 @@
 {{ define "curtidas"}}
-<i class="fas fa-heart"></i>
+<i class="fas fa-heart curtir-publicacao"></i>
 <span> {{ .Curtidas }} </span>
 {{ end }}
 
 {{ define "editar" }}
-<a href="/editar" style="text-decoration: none;">
+<a href="/publicacoes/{{ .ID }}/editar" style="text-decoration: none;">
   <i class="fas fa-edit"></i>
 </a>
 {{ end }}
@@ -27,8 +27,8 @@
   {{ template "cabecalho-publicacao" .}}
   <p>
     {{ template "curtidas" . }}
-    {{ template "editar" }}
-    {{ template "deletar" }}
+    {{ template "editar" . }}
+    {{ template "deletar" . }}
   </p>
 </div>
 {{ end }}
