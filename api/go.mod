@@ -12,7 +12,7 @@ require (
 
 require golang.org/x/crypto v0.43.0
 
-require github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
+require github.com/dgrijalva/jwt-go v3.2.0+incompatible
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
