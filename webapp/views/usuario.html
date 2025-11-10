@@ -66,12 +66,12 @@
             <h5 class="card-title"> Publicações do Usuário {{ .Usuario.Nick }}</h5>
             <p class="card-text">
               {{ range .Usuario.Publicacoes }}
-                {{ template "publicacao-sem-permissao" . }}
+              {{ template "publicacao-sem-permissao" . }}
               {{ else }}
-              <p class="texte-muted text-center">
-                Sem publicações
-              </p>
-              {{ end }}
+            <p class="texte-muted text-center">
+              Sem publicações
+            </p>
+            {{ end }}
             </p>
           </div>
         </div>
@@ -81,6 +81,9 @@
 
   {{ template "footer" }}
   {{ template "scripts" }}
+
+  <script src="/assets/js/publicacoes.js"></script>
+  <script src="/assets/js/usuario.js"></script>
 </body>
 
 </html>
